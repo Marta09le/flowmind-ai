@@ -1,0 +1,16 @@
+<svg viewBox="0 0 300 60" xmlns="http://www.w3.org/2000/svg">
+  <path
+    d="M 10 30
+       C 25 8, 45 8, 58 28
+       C 72 50, 92 50, 105 27
+       C 118 6, 140 6, 152 28
+       C 165 50, 186 50, 198 26
+       C 210 6, 232 6, 245 27
+       C 257 47, 277 47, 290 28"
+    fill="none"
+    stroke="#111111"
+    stroke-width="7"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
+</svg>
