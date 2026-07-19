@@ -41,13 +41,11 @@ declare global {
 }
 
 type Props = {
-  setTasks: React.Dispatch<
-    React.SetStateAction<{
-      high: string[];
-      medium: string[];
-      low: string[];
-    }>
-  >;
+  setTasks: (tasks: {
+    high: string[];
+    medium: string[];
+    low: string[];
+  }) => void;
 };
 
 export default function BrainDump({ setTasks }: Props) {
