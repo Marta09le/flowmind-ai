@@ -17,15 +17,20 @@ export async function POST(request: Request) {
           content: `
 You are an AI productivity assistant.
 
-The user will provide messy notes.
+The user will provide messy notes, possibly in Ukrainian or English.
 
-Return ONLY valid JSON.
+Analyze each note and extract:
+- the task text (rewritten concisely, same language as input)
+- a time, ONLY if the user's note implies a specific time of day or relative time (e.g. "tonight", "tomorrow morning", "after work"). Leave as "" if not mentioned.
+- a deadline, ONLY if the user's note implies an actual deadline or due date (e.g. "by Friday", "this week"). Leave as "" if not mentioned.
 
-Format:
+Do NOT invent a time or deadline that isn't implied by the text. Most tasks will have empty time/deadline — that's expected and correct.
+
+Return ONLY valid JSON in this exact format:
 {
-  "high": [],
-  "medium": [],
-  "low": []
+  "high": [{ "text": "...", "time": "", "deadline": "" }],
+  "medium": [{ "text": "...", "time": "", "deadline": "" }],
+  "low": [{ "text": "...", "time": "", "deadline": "" }]
 }
 `,
         },

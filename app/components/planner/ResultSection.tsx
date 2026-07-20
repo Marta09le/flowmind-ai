@@ -1,18 +1,42 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { Card } from "@/components/ui/card";
-import { Circle, CheckCircle2, PartyPopper } from "lucide-react";
+import { Circle, CheckCircle2, PartyPopper, Clock } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+
+export type TaskItem = {
+  text: string;
+  time?: string;
+  deadline?: string;
+};
 
 type Props = {
   tasks: {
-    high: string[];
-    medium: string[];
-    low: string[];
+    high: TaskItem[];
+    medium: TaskItem[];
+    low: TaskItem[];
   };
   doneIds: Set<string>;
   onToggleTask: (id: string) => void;
 };
+
+function getGreeting(): string {
+  const hour = new Date().getHours();
+
+  if (hour < 12) {
+    return "Гарного дня";
+  } else if (hour < 18) {
+    return "Продуктивного дня";
+  } else {
+    return "Гарного вечора";
+  }
+}
+
+function getTaskMeta(task: TaskItem): string | null {
+  const parts = [task.time, task.deadline].filter(Boolean);
+  return parts.length > 0 ? parts.join(" · ") : null;
+}
 
 function TaskColumn({
   title,
@@ -27,7 +51,7 @@ function TaskColumn({
   title: string;
   colorClass: string;
   dotClass: string;
-  tasks: string[];
+  tasks: TaskItem[];
   groupKey: string;
   doneIds: Set<string>;
   onToggle: (id: string) => void;
@@ -49,6 +73,7 @@ function TaskColumn({
           {tasks.map((task, index) => {
             const id = `${groupKey}-${index}`;
             const isDone = doneIds.has(id);
+            const meta = getTaskMeta(task);
 
             return (
               <motion.li
@@ -89,15 +114,24 @@ function TaskColumn({
                   </AnimatePresence>
                 </button>
 
-                <span
-                  className={`text-[15px] leading-6 transition-all duration-200 ${
-                    isDone
-                      ? "text-neutral-400 line-through"
-                      : "text-neutral-700"
-                  }`}
-                >
-                  {task}
-                </span>
+                <div className="min-w-0 flex-1">
+                  <span
+                    className={`block text-[15px] leading-6 transition-all duration-200 ${
+                      isDone
+                        ? "text-neutral-400 line-through"
+                        : "text-neutral-700"
+                    }`}
+                  >
+                    {task.text}
+                  </span>
+
+                  {meta && !isDone && (
+                    <span className="mt-1 flex items-center gap-1 text-xs text-neutral-400">
+                      <Clock className="h-3 w-3" />
+                      {meta}
+                    </span>
+                  )}
+                </div>
               </motion.li>
             );
           })}
@@ -107,7 +141,6 @@ function TaskColumn({
   );
 }
 
-// Легкий "конфеті" ефект — розлітаються емодзі при завершенні плану
 function CelebrationBurst() {
   const particles = ["🎉", "✨", "🎊", "⭐", "🎈"];
 
@@ -139,6 +172,12 @@ function CelebrationBurst() {
 }
 
 export default function ResultSection({ tasks, doneIds, onToggleTask }: Props) {
+  const [greeting, setGreeting] = useState("Гарного дня");
+
+  useEffect(() => {
+    setGreeting(getGreeting());
+  }, []);
+
   const totalTasks =
     tasks.high.length + tasks.medium.length + tasks.low.length;
   const doneCount = doneIds.size;
@@ -171,7 +210,7 @@ export default function ResultSection({ tasks, doneIds, onToggleTask }: Props) {
               <PartyPopper className="h-5 w-5 text-amber-500" />
 
               <p className="text-lg font-semibold text-neutral-900">
-                Все зроблено! Гарного вечора 🎉
+                Все зроблено! {greeting} 🎉
               </p>
             </motion.div>
           ) : (

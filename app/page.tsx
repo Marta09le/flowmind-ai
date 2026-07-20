@@ -5,12 +5,13 @@ import { useEffect, useState } from "react";
 import Hero from "./components/Hero";
 import BrainDump from "./components/planner/BrainDump";
 import ResultSection from "./components/planner/ResultSection";
+import type { TaskItem } from "./components/planner/ResultSection";
 import Doodles from "./components/Doodles";
 
 type Tasks = {
-  high: string[];
-  medium: string[];
-  low: string[];
+  high: TaskItem[];
+  medium: TaskItem[];
+  low: TaskItem[];
 };
 
 const TASKS_STORAGE_KEY = "flowmind-tasks";

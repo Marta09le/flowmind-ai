@@ -7,6 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 
 import { Brain, Sparkles, Loader2, X, Mic, MicOff } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import type { TaskItem } from "./ResultSection";
 
 // Web Speech API не має офіційних TS-типів, тому описуємо мінімально необхідне самі.
 // Це надійніше за `any` в купі місць і не ламається при апдейті lib.dom.
@@ -42,9 +43,9 @@ declare global {
 
 type Props = {
   setTasks: (tasks: {
-    high: string[];
-    medium: string[];
-    low: string[];
+    high: TaskItem[];
+    medium: TaskItem[];
+    low: TaskItem[];
   }) => void;
 };
 
@@ -160,7 +161,7 @@ export default function BrainDump({ setTasks }: Props) {
   };
 
   return (
-    <section className="mx-auto mt-12 w-full max-w-3xl px-6">
+    <section id="capture" className="mx-auto mt-12 w-full max-w-3xl px-6">
       <div className="rounded-3xl border border-neutral-200 bg-white p-6 shadow-xl">
 
         <div className="mb-5 flex items-center gap-3">

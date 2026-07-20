@@ -1,6 +1,17 @@
+"use client";
+
+import { motion } from "framer-motion";
+import { ChevronDown } from "lucide-react";
+
 export default function Hero() {
+  const scrollToCapture = () => {
+    document.getElementById("capture")?.scrollIntoView({
+      behavior: "smooth",
+    });
+  };
+
   return (
-    <section className="relative overflow-hidden px-6 pt-24">
+    <section className="relative overflow-hidden px-6 pt-35 pb-20">
       {/* Background Grid */}
       <div
         className="
@@ -32,6 +43,28 @@ export default function Hero() {
           <br />
           FlowMind AI transforms them into a structured action plan in seconds.
         </p>
+
+        <motion.button
+          type="button"
+          onClick={scrollToCapture}
+          className="mt-14 flex flex-col items-center gap-2 text-neutral-500 transition-colors hover:text-neutral-900"
+          whileHover={{ scale: 1.05 }}
+        >
+          <span className="text-sm font-medium">
+            Write what's on your mind
+          </span>
+
+          <motion.span
+            animate={{ y: [0, 8, 0] }}
+            transition={{
+              duration: 1.6,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+          >
+            <ChevronDown className="h-6 w-6" />
+          </motion.span>
+        </motion.button>
 
       </div>
     </section>
